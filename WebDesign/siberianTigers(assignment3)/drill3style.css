@@ -1,0 +1,23 @@
+	p {
+	color:darkslategray;
+	background-color:lightyellow;
+	border:3px solid orange;
+	margin:40px;
+	padding:20px;
+	}
+	.bluetext{
+	color:skyblue;
+	}
+	h1, h2 {
+	background-color:steelblue;
+	padding: 30px;
+	}
+	body {
+	background-image:url(tiger.jpg);
+	background-repeat:no-repeat;
+	background-size:cover;
+	}
+	h1 {
+	border-bottom: 4px dotted lightyellow;
+	margin-top: 20px;
+	}

@@ -1,0 +1,9 @@
+html{background-color: #202020;}
+body {
+	color: #ff5050;
+	font-family: Consolas;
+}
+hr {
+	color: #ff5050;
+	border-style:solid;
+}
