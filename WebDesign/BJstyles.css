@@ -6,39 +6,21 @@ body {
 }
 
 .card {
-    display: inline-block;
     width: 100px;
     height: 140px;
     background-size: cover;
-    border-radius: 8px;
-    border: 1px solid white;
     margin: 5px;
-}
-
-.bet-buttons {
-    margin-top: 10px;
+    display: inline-block;
 }
 
 .chip {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    border: 2px solid white;
-    font-size: 14px;
+    margin: 5px;
 }
 
-.chip-50 { background-color: red; }
-.chip-100 { background-color: blue; }
-.chip-200 { background-color: green; }
-.chip-250 { background-color: purple; }
-.chip-500 { background-color: orange; }
-.chip-1000 { background-color: yellow; }
-.chip-2000 { background-color: cyan; }
-.chip-5000 { background-color: pink; }
-.chip-10000 { background-color: gold; }
-
 .remove-bet {
-    margin-top: 10px;
-    background-color: gray;
-    padding: 5px;
+    display: block;
+    margin: 10px auto;
 }
