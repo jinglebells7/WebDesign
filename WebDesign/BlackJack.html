@@ -6,65 +6,52 @@
     <title>Blackjack</title>
     <link rel="icon" href="favicon.png" type="image/png">
     <link rel="stylesheet" href="BJstyles.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #2e2e2e;
-            color: white;
-            text-align: center;
-        }
-        .card-container {
-            margin-top: 20px;
-        }
-        .card {
-            display: inline-block;
-            width: 100px;
-            height: 140px;
-            background-size: cover;
-            border-radius: 8px;
-            border: 1px solid white;
-            margin: 5px;
-        }
-    </style>
 </head>
 <body>
     <h1>Blackjack</h1>
+    <h2>Balance: $<span id="balance">500</span></h2>
+
+    <div class="bet-container">
+        <h3>Current Bet: $<span id="current-bet">0</span></h3>
+        <div class="bet-buttons">
+            <button class="chip chip-50" onclick="placeBet(50)">$50</button>
+            <button class="chip chip-100" onclick="placeBet(100)">$100</button>
+            <button class="chip chip-200" onclick="placeBet(200)">$200</button>
+            <button class="chip chip-250" onclick="placeBet(250)">$250</button>
+            <button class="chip chip-500" onclick="placeBet(500)">$500</button>
+            <button class="chip chip-1000" onclick="placeBet(1000)">$1000</button>
+            <button class="chip chip-2000" onclick="placeBet(2000)">$2000</button>
+            <button class="chip chip-5000" onclick="placeBet(5000)">$5000</button>
+            <button class="chip chip-10000" onclick="placeBet(10000)">$10000</button>
+        </div>
+        <button class="remove-bet" onclick="removeBet()">Remove Bet</button>
+    </div>
+
     <div>
         <h2>Player's Hand</h2>
         <div id="player-hand" class="card-container"></div>
         <h3 id="player-score">Score: 0</h3>
     </div>
+
     <div>
         <h2>Dealer's Hand</h2>
         <div id="dealer-hand" class="card-container"></div>
         <h3 id="dealer-score">Score: 0</h3>
     </div>
+
     <button onclick="hit()">Hit</button>
     <button onclick="stand()">Stand</button>
-    <h2 id="message"></h2>
-    <button id="play-again" style="display:none;" onclick="startGame()">Play Again</button>
-    <h3>Balance: $<span id="balance">500</span></h3>
-    <div id="betting-options">
-        <button class="bet-chip" onclick="placeBet(50)" style="background-color:red;">$50</button>
-        <button class="bet-chip" onclick="placeBet(100)" style="background-color:blue;">$100</button>
-        <button class="bet-chip" onclick="placeBet(200)" style="background-color:green;">$200</button>
-        <button class="bet-chip" onclick="placeBet(250)" style="background-color:purple;">$250</button>
-        <button class="bet-chip" onclick="placeBet(500)" style="background-color:orange;">$500</button>
-        <button class="bet-chip" onclick="placeBet(1000)" style="background-color:yellow;">$1000</button>
-        <button class="bet-chip" onclick="placeBet(2000)" style="background-color:pink;">$2000</button>
-        <button class="bet-chip" onclick="placeBet(5000)" style="background-color:brown;">$5000</button>
-        <button class="bet-chip" onclick="placeBet(10000)" style="background-color:black;">$10000</button>
-        <button onclick="removeBet()">Remove Bet</button>
-    </div>
-    <h3>Current Bet: $<span id="current-bet">0</span></h3>
     
+    <h2 id="message"></h2>
+    <button id="play-again" onclick="startGame()" style="display: none;">Play Again</button>
+
     <script>
         let deck = [];
         let playerHand = [];
         let dealerHand = [];
         let balance = 500;
         let currentBet = 0;
-        
+
         function createDeck() {
             let suits = ['hearts', 'diamonds', 'clubs', 'spades'];
             let values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
@@ -74,27 +61,47 @@
                     deck.push({
                         suit,
                         value,
-                        img: `https://raw.githubusercontent.com/hanhaechi/playing-cards/master/png/${value.toUpperCase()}_of_${suit.charAt(0).toUpperCase() + suit.slice(1)}.png`
+                        img: `https://raw.githubusercontent.com/hanhaechi/playing-cards/main/png/${suit}_${value}.png`
                     });
                 }
             }
             deck = deck.sort(() => Math.random() - 0.5);
         }
-        
+
+        function calculateScore(hand) {
+            let score = 0;
+            let aces = 0;
+            for (let card of hand) {
+                if (['J', 'Q', 'K'].includes(card.value)) {
+                    score += 10;
+                } else if (card.value === 'A') {
+                    aces += 1;
+                    score += 11;
+                } else {
+                    score += parseInt(card.value);
+                }
+            }
+            while (score > 21 && aces > 0) {
+                score -= 10;
+                aces -= 1;
+            }
+            return score;
+        }
+
         function dealCard(hand, elementId) {
             if (deck.length === 0) createDeck();
             let card = deck.pop();
             hand.push(card);
-            
+
             let cardDiv = document.createElement('div');
             cardDiv.classList.add('card');
             cardDiv.style.backgroundImage = `url(${card.img})`;
             document.getElementById(elementId).appendChild(cardDiv);
         }
-        
+
         function startGame() {
             if (currentBet === 0) {
-                alert("Place a bet first!");
+                alert("You must place a bet first!");
                 return;
             }
             createDeck();
@@ -103,34 +110,71 @@
             document.getElementById('player-hand').innerHTML = '';
             document.getElementById('dealer-hand').innerHTML = '';
             document.getElementById('message').innerText = '';
-            document.getElementById('play-again').style.display = 'none';
+            document.getElementById('play-again').style.display = "none";
+
             dealCard(playerHand, 'player-hand');
             dealCard(playerHand, 'player-hand');
             dealCard(dealerHand, 'dealer-hand');
+
+            updateScores();
         }
-        
+
         function hit() {
             dealCard(playerHand, 'player-hand');
+            updateScores();
         }
-        
+
         function stand() {
-            document.getElementById('play-again').style.display = 'block';
+            while (calculateScore(dealerHand) < 17) {
+                dealCard(dealerHand, 'dealer-hand');
+            }
+            determineWinner();
         }
-        
+
+        function updateScores() {
+            document.getElementById('player-score').innerText = `Score: ${calculateScore(playerHand)}`;
+            document.getElementById('dealer-score').innerText = `Score: ${calculateScore(dealerHand)}`;
+        }
+
+        function determineWinner() {
+            let playerScore = calculateScore(playerHand);
+            let dealerScore = calculateScore(dealerHand);
+
+            if (playerScore > 21) {
+                document.getElementById('message').innerText = "You Busted! Dealer Wins!";
+                balance -= currentBet;
+            } else if (dealerScore > 21 || playerScore > dealerScore) {
+                document.getElementById('message').innerText = "You Win!";
+                balance += currentBet * 2;
+            } else if (playerScore < dealerScore) {
+                document.getElementById('message').innerText = "Dealer Wins!";
+                balance -= currentBet;
+            } else {
+                document.getElementById('message').innerText = "Push! It's a Tie!";
+            }
+
+            currentBet = 0;
+            document.getElementById('balance').innerText = balance;
+            document.getElementById('current-bet').innerText = currentBet;
+            document.getElementById('play-again').style.display = "block";
+        }
+
         function placeBet(amount) {
             if (balance >= amount) {
                 currentBet += amount;
                 balance -= amount;
-                document.getElementById('current-bet').innerText = currentBet;
                 document.getElementById('balance').innerText = balance;
+                document.getElementById('current-bet').innerText = currentBet;
+            } else {
+                alert("Not enough funds!");
             }
         }
-        
+
         function removeBet() {
             balance += currentBet;
             currentBet = 0;
-            document.getElementById('current-bet').innerText = currentBet;
             document.getElementById('balance').innerText = balance;
+            document.getElementById('current-bet').innerText = currentBet;
         }
     </script>
 </body>
