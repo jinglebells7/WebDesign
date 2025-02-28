@@ -1,0 +1,119 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2e2e2e;
+    color: white;
+    text-align: center;
+}
+
+h1, h2, h3 {
+    color: white;
+}
+
+.card-container {
+    margin-top: 20px;
+}
+
+.card {
+    display: inline-block;
+    width: 100px;
+    height: 140px;
+    background-size: cover;
+    border-radius: 8px;
+    border: 1px solid white;
+    margin: 5px;
+}
+
+#bet-section {
+    margin-top: 20px;
+}
+
+#bet-options {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.bet-option {
+    padding: 20px;
+    margin: 5px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.1s;
+}
+
+/* Bet button colors */
+.bet-option[data-bet="50"] {
+    background-color: #28a745;
+}
+
+.bet-option[data-bet="100"] {
+    background-color: #007bff;
+}
+
+.bet-option[data-bet="200"] {
+    background-color: #f0ad4e;
+}
+
+.bet-option[data-bet="250"] {
+    background-color: #ffc107;
+}
+
+.bet-option[data-bet="500"] {
+    background-color: #17a2b8;
+}
+
+.bet-option[data-bet="1000"] {
+    background-color: #dc3545;
+}
+
+.bet-option[data-bet="2000"] {
+    background-color: #6610f2;
+}
+
+.bet-option[data-bet="5000"] {
+    background-color: #e83e8c;
+}
+
+.bet-option[data-bet="10000"] {
+    background-color: #fd7e14;
+}
+
+.bet-option:hover {
+    opacity: 0.8;
+}
+
+.bet-option:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#hit-btn, #stand-btn, #start-game {
+    background-color: #444;
+    color: white;
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    margin: 10px;
+    cursor: pointer;
+}
+
+#hit-btn:hover, #stand-btn:hover, #start-game:hover {
+    background-color: #666;
+}
+
+#message {
+    margin-top: 20px;
+    font-size: 20px;
+    color: #ffcc00;
+}
