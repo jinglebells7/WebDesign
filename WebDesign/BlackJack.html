@@ -6,6 +6,113 @@
     <title>Blackjack</title>
     <link rel="icon" href="favicon.png" type="image/png">
     <link rel="stylesheet" href="BJstyles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2e2e2e;
+            color: white;
+            text-align: center;
+        }
+
+        .card-container {
+            margin-top: 20px;
+        }
+
+        .card {
+            display: inline-block;
+            width: 100px;
+            height: 140px;
+            background-size: cover;
+            border-radius: 8px;
+            border: 1px solid white;
+            margin: 5px;
+        }
+
+        .bet-option {
+            padding: 20px 30px;
+            margin: 5px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 50%;  /* Makes the button circular */
+            width: 80px;  /* Set a specific width */
+            height: 80px;  /* Set a specific height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Adds a subtle shadow for depth */
+            font-weight: bold;
+            text-align: center;
+            transition: background-color 0.2s, transform 0.1s, box-shadow 0.1s;  /* Smooth transition effects */
+        }
+
+        /* Bet button colors */
+        .bet-option[data-bet="50"] {
+            background-color: #28a745;  /* Green for $50 */
+        }
+
+        .bet-option[data-bet="100"] {
+            background-color: #007bff;  /* Blue for $100 */
+        }
+
+        .bet-option[data-bet="200"] {
+            background-color: #f0ad4e;  /* Orange for $200 */
+        }
+
+        .bet-option[data-bet="250"] {
+            background-color: #ffc107;  /* Yellow for $250 */
+        }
+
+        .bet-option[data-bet="500"] {
+            background-color: #17a2b8;  /* Teal for $500 */
+        }
+
+        .bet-option[data-bet="1000"] {
+            background-color: #dc3545;  /* Red for $1000 */
+        }
+
+        .bet-option[data-bet="2000"] {
+            background-color: #6610f2;  /* Purple for $2000 */
+        }
+
+        .bet-option[data-bet="5000"] {
+            background-color: #e83e8c;  /* Pink for $5000 */
+        }
+
+        .bet-option[data-bet="10000"] {
+            background-color: #fd7e14;  /* Deep Orange for $10,000 */
+        }
+
+        /* Hover and active effects */
+        .bet-option:hover {
+            opacity: 0.8;  /* Slight opacity reduction on hover */
+        }
+
+        .bet-option:active {
+            transform: scale(0.95);  /* Slight shrink effect when clicked */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);  /* Enhance shadow on click */
+        }
+
+        /* General Styles */
+        h1, h2, h3 {
+            color: white;
+        }
+        
+        #message {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #ffcc00;
+        }
+
+        #bet-options {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+    </style>
 </head>
 <body>
     <h1>Blackjack</h1>
@@ -21,29 +128,145 @@
         <div id="dealer-hand" class="card-container"></div>
         <h3 id="dealer-score">Score: 0</h3>
     </div>
-
-    <div id="bet-section">
-        <h3>Balance: <span id="balance">$500</span></h3>
-        <h3>Current Bet: <span id="current-bet">$0</span></h3>
-        <div id="bet-options">
-            <button class="bet-option" data-bet="50" onclick="placeBet(50)">$50</button>
-            <button class="bet-option" data-bet="100" onclick="placeBet(100)">$100</button>
-            <button class="bet-option" data-bet="200" onclick="placeBet(200)">$200</button>
-            <button class="bet-option" data-bet="250" onclick="placeBet(250)">$250</button>
-            <button class="bet-option" data-bet="500" onclick="placeBet(500)">$500</button>
-            <button class="bet-option" data-bet="1000" onclick="placeBet(1000)">$1000</button>
-            <button class="bet-option" data-bet="2000" onclick="placeBet(2000)">$2000</button>
-            <button class="bet-option" data-bet="5000" onclick="placeBet(5000)">$5000</button>
-            <button class="bet-option" data-bet="10000" onclick="placeBet(10000)">$10,000</button>
-        </div>
-        <button id="start-game" onclick="startGame()">Start Game</button>
+    
+    <div id="bet-options">
+        <button class="bet-option" data-bet="50" onclick="placeBet(50)"><span>$50</span></button>
+        <button class="bet-option" data-bet="100" onclick="placeBet(100)"><span>$100</span></button>
+        <button class="bet-option" data-bet="200" onclick="placeBet(200)"><span>$200</span></button>
+        <button class="bet-option" data-bet="250" onclick="placeBet(250)"><span>$250</span></button>
+        <button class="bet-option" data-bet="500" onclick="placeBet(500)"><span>$500</span></button>
+        <button class="bet-option" data-bet="1000" onclick="placeBet(1000)"><span>$1000</span></button>
+        <button class="bet-option" data-bet="2000" onclick="placeBet(2000)"><span>$2000</span></button>
+        <button class="bet-option" data-bet="5000" onclick="placeBet(5000)"><span>$5000</span></button>
+        <button class="bet-option" data-bet="10000" onclick="placeBet(10000)"><span>$10,000</span></button>
     </div>
 
-    <button id="hit-btn" onclick="hit()">Hit</button>
-    <button id="stand-btn" onclick="stand()">Stand</button>
-    
+    <button onclick="hit()">Hit</button>
+    <button onclick="stand()">Stand</button>
     <h2 id="message"></h2>
 
-    <script src="script.js"></script>
+    <script>
+        let deck = [];
+        let playerHand = [];
+        let dealerHand = [];
+        let playerMoney = 500;  // Starting money
+
+        function createDeck() {
+            let suits = ['hearts', 'diamonds', 'clubs', 'spades'];  
+            let values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+            deck = [];
+            for (let suit of suits) {
+                for (let value of values) {
+                    let cardValue = value === 'J' ? '11' : value === 'Q' ? '12' : value === 'K' ? '13' : value === 'A' ? '14' : value;
+                    deck.push({
+                        suit,
+                        value,
+                        img: `playing-cards-master/${suit}_${cardValue}.png`,
+                        class: `card-${value}_of_${suit}`
+                    });
+                }
+            }
+            deck = deck.sort(() => Math.random() - 0.5);
+        }
+
+        function calculateScore(hand) {
+            let score = 0;
+            let aces = 0;
+            for (let card of hand) {
+                if (['J', 'Q', 'K'].includes(card.value)) {
+                    score += 10;
+                } else if (card.value === 'A') {
+                    aces += 1;
+                    score += 11;
+                } else {
+                    score += parseInt(card.value);
+                }
+            }
+            while (score > 21 && aces > 0) {
+                score -= 10;
+                aces -= 1;
+            }
+            return score;
+        }
+
+        function dealCard(hand, elementId) {
+            if (deck.length === 0) createDeck();
+            let card = deck.pop();
+            hand.push(card);
+
+            let cardDiv = document.createElement('div');
+            cardDiv.classList.add('card', card.class);
+            cardDiv.style.backgroundImage = `url(${card.img})`;
+            document.getElementById(elementId).appendChild(cardDiv);
+        }
+
+        function startGame() {
+            createDeck();
+            playerHand = [];
+            dealerHand = [];
+            document.getElementById('player-hand').innerHTML = '';
+            document.getElementById('dealer-hand').innerHTML = '';
+            dealCard(playerHand, 'player-hand');
+            dealCard(playerHand, 'player-hand');
+            dealCard(dealerHand, 'dealer-hand');
+            document.getElementById('player-score').innerText = `Score: ${calculateScore(playerHand)}`;
+            document.getElementById('dealer-score').innerText = `Score: ${calculateScore(dealerHand)}`;
+            document.getElementById('message').innerText = '';
+        }
+
+        function hit() {
+            dealCard(playerHand, 'player-hand');
+            let score = calculateScore(playerHand);
+            document.getElementById('player-score').innerText = `Score: ${score}`;
+            if (score > 21) {
+                document.getElementById('message').innerText = 'You Busted! Dealer Wins!';
+                showPlayAgainButton();
+            }
+        }
+
+        function stand() {
+            let dealerScore = calculateScore(dealerHand);
+            while (dealerScore < 17) {
+                dealCard(dealerHand, 'dealer-hand');
+                dealerScore = calculateScore(dealerHand);
+            }
+            document.getElementById('dealer-score').innerText = `Score: ${dealerScore}`;
+            let playerScore = calculateScore(playerHand);
+            if (dealerScore > 21 || playerScore > dealerScore) {
+                document.getElementById('message').innerText = 'You Win!';
+                showPlayAgainButton();
+            } else if (playerScore < dealerScore) {
+                document.getElementById('message').innerText = 'Dealer Wins!';
+                showPlayAgainButton();
+            } else {
+                document.getElementById('message').innerText = 'It\'s a Tie!';
+                showPlayAgainButton();
+            }
+        }
+
+        function showPlayAgainButton() {
+            let playAgainButton = document.createElement('button');
+            playAgainButton.innerText = 'Play Again';
+            playAgainButton.onclick = function () {
+                startGame();
+                document.getElementById('message').innerText = '';
+                playAgainButton.remove();
+            };
+            document.getElementById('message').appendChild(playAgainButton);
+        }
+
+        let currentBet = 0;
+        function placeBet(amount) {
+            if (playerMoney >= amount) {
+                currentBet += amount;
+                playerMoney -= amount;
+                alert(`Bet placed: $${amount}. Current balance: $${playerMoney}`);
+            } else {
+                alert("Insufficient funds!");
+            }
+        }
+
+        startGame();
+    </script>
 </body>
 </html>
